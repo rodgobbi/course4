@@ -1,0 +1,22 @@
+<ion-view view-title="Contact Us">
+  <ion-content>
+    <div class="card">
+      <div class="item item-divider">
+        Location Information
+      </div>
+      <div class="item item-text-wrap">
+        <p>{{address.first}}</p>
+        <p>{{address.second}}</p>
+        <p>{{address.third}}</p>
+        <p><i class="icon ion-android-call"></i>: {{address.tel}}</p>
+        <p><i class="icon ion-printer"></i>: {{address.fax}}</p>
+        <p><i class="icon ion-android-mail"></i>: <a href="mailto:{{address.email}}">{{address.email}}</a></p>
+      </div>
+      <div class="button-bar">
+        <button class="button icon-left ion-android-call button-positive">Call</button>
+        <button class="button icon-left ion-social-skype-outline button-calm">Skype</button>
+        <button class="button icon-left ion-android-mail button-balanced">Email</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
