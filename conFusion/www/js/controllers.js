@@ -71,24 +71,15 @@ angular.module('conFusion.controllers', [])
   };
 })
 
-.controller('MenuController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicListDelegate',
-  function($scope, menuFactory, favoriteFactory, baseURL, $ionicListDelegate) {
+.controller('MenuController', ['$scope', 'dishes', 'favoriteFactory', 'baseURL', '$ionicListDelegate',
+  function($scope, dishes, favoriteFactory, baseURL, $ionicListDelegate) {
 
     $scope.baseURL = baseURL;
     $scope.tab = 1;
     $scope.filtText = '';
     $scope.showDetails = false;
-    $scope.showMenu = false;
-    $scope.message = "Loading ...";
+    $scope.dishes = dishes;
 
-    menuFactory.query(
-      function(response) {
-        $scope.dishes = response;
-        $scope.showMenu = true;
-      },
-      function(response) {
-        $scope.message = "Error: " + response.status + " " + response.statusText;
-      });
     $scope.addFavorite = function(index) {
       console.log("index is " + index);
       favoriteFactory.addToFavorites(index);
@@ -157,7 +148,7 @@ angular.module('conFusion.controllers', [])
       $scope.baseURL = baseURL;
       $scope.dish = dish;
 
-      // $scope.dishDetailPopover assignment 
+      // $scope.dishDetailPopover assignment
       var dishDetailPopover = $ionicPopover.fromTemplateUrl('templates/dish-detail-popover.html', {
         scope: $scope
       }).then(function(popover) {
@@ -205,41 +196,19 @@ angular.module('conFusion.controllers', [])
 
 // implement the IndexController and About Controller here
 
-.controller('IndexController', ['$scope', 'menuFactory', 'promotionFactory', 'corporateFactory', 'baseURL',
-    function($scope, menuFactory, promotionFactory, corporateFactory, baseURL) {
-
+.controller('IndexController', ['$scope', 'leader', 'dish', 'promotion', 'baseURL',
+    function($scope, leader, dish, promotion, baseURL) {
       $scope.baseURL = baseURL;
-      $scope.leader = corporateFactory.get({
-        id: 3
-      });
-
-      $scope.showDish = false;
-      $scope.message = "Loading ...";
-
-      $scope.dish = menuFactory.get({
-          id: 0
-        })
-        .$promise.then(
-          function(response) {
-            $scope.dish = response;
-            $scope.showDish = true;
-          },
-          function(response) {
-            $scope.message = "Error: " + response.status + " " + response.statusText;
-          }
-        );
-
-      $scope.promotion = promotionFactory.get({
-        id: 0
-      });
-
+      $scope.leader = leader;
+      $scope.dish = dish;
+      $scope.promotion = promotion;
     }
   ])
-  .controller('AboutController', ['$scope', 'corporateFactory', 'historyService', 'baseURL',
-    function($scope, corporateFactory, historyService, baseURL) {
+  .controller('AboutController', ['$scope', 'leaders', 'history', 'baseURL',
+    function($scope, leaders, history, baseURL) {
       $scope.baseURL = baseURL;
-      $scope.leaders = corporateFactory.query();
-      $scope.history = historyService.getHistory().get();
+      $scope.leaders = leaders;
+      $scope.history = history;
     }
   ])
   .controller('FavoritesController', ['$scope', 'dishes', 'favorites', 'favoriteFactory', 'baseURL', '$ionicListDelegate', '$ionicPopup', '$ionicLoading', '$timeout',
