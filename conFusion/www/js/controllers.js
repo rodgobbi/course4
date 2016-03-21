@@ -261,16 +261,16 @@ angular.module('conFusion.controllers', [])
           $cordovaLocalNotification.schedule({
             id: 1,
             title: "Added Favorite",
-            text: $scope.dishes[index].name
+            text: $scope.dish.name
           }).then(function() {
-              console.log('Added Favorite ' + $scope.dishes[index].name);
+              console.log('Added Favorite ' + $scope.dish.name);
             },
             function() {
               console.log('Failed to add Notification ');
             });
 
           $cordovaToast
-            .show('Added Favorite ' + $scope.dishes[index].name, 'long', 'center')
+            .show('Added Favorite ' + $scope.dish.name, 'long', 'bottom')
             .then(function(success) {
               // success
             }, function(error) {
@@ -343,8 +343,9 @@ angular.module('conFusion.controllers', [])
       $scope.history = history;
     }
   ])
-  .controller('FavoritesController', ['$scope', 'dishes', 'favorites', 'favoriteFactory', 'baseURL', '$ionicListDelegate', '$ionicPopup', '$ionicLoading', '$timeout',
-    function($scope, dishes, favorites, favoriteFactory, baseURL, $ionicListDelegate, $ionicPopup, $ionicLoading, $timeout) {
+  .controller('FavoritesController', ['$scope', 'dishes', 'favorites', 'favoriteFactory', 'baseURL',
+    '$ionicListDelegate', '$ionicPopup', '$ionicLoading', '$timeout', '$cordovaVibration',
+    function($scope, dishes, favorites, favoriteFactory, baseURL, $ionicListDelegate, $ionicPopup, $ionicLoading, $timeout, $cordovaVibration) {
 
       $scope.baseURL = baseURL;
       $scope.shouldShowDelete = false;
@@ -371,6 +372,7 @@ angular.module('conFusion.controllers', [])
           if (res) {
             console.log('Ok to delete');
             favoriteFactory.deleteFromFavorites(index);
+            $cordovaVibration.vibrate(100);
           } else {
             console.log('Canceled delete');
           }
